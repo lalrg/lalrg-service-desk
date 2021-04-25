@@ -1,4 +1,5 @@
 ﻿using ETL;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace DataAccess
         }
         public Appuser GetByEmail(string email)
         {
-            return _context.Appusers.SingleOrDefault(x => x.Email == email);
+            return _context.Appusers.Include(u => u.IdRoleNavigation).SingleOrDefault(x => x.Email == email);
         }
 
         public Appuser CreateUser(Appuser user)

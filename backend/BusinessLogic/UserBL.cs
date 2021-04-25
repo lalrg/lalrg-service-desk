@@ -32,13 +32,17 @@ namespace BusinessLogic
             if (user == null) return null;
 
             var realHash = user.Passwordhash;
-            if (hashMatches(realHash, user.Passwordsalt, password)) return null;
+            if (!hashMatches(realHash, user.Passwordsalt, password)) return null;
 
             return user;
         }
         public Appuser Create(Appuser model)
         {
             return _userRepository.CreateUser(model);
+        }
+        public Appuser GetByEmail(string email)
+        {
+            return _userRepository.GetByEmail(email);
         }
     }
 }

@@ -1,17 +1,15 @@
 using BusinessLogic;
 using DataAccess;
+using ETL;
+using lalrg_servicedesk_backend.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace lalrg_servicedesk_backend
 {
@@ -30,7 +28,10 @@ namespace lalrg_servicedesk_backend
             services.AddScoped<SERVICEDESKContext>();
             services.AddScoped<UserRepository>();
             services.AddScoped<UserBL>();
-            services.AddControllers();
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +46,12 @@ namespace lalrg_servicedesk_backend
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            app.UseMiddleware<CustomJwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

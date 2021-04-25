@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using BusinessLogic.DTOs;
 using BusinessLogic;
 using ETL;
+using Microsoft.AspNetCore.Authorization;
+using lalrg_servicedesk_backend.Authentication;
+using lalrg_servicedesk_backend.ViewModels.UserVM;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,24 +22,14 @@ namespace lalrg_servicedesk_backend.Controllers
         {
             _userBL = userBL;
         }
-        // GET: api/<UserController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<UserController>
         [HttpPost("Create")]
-        public Appuser CreateUser([FromBody] CreateUserDTO user)
+        [Authenticate("Administrador")]
+        public ActionResult<Appuser> CreateUser([FromBody] CreateUserDTO user)
         {
+            var userExists = _userBL.GetByEmail(user.Email) == null;
+            if (userExists) return BadRequest("El correo ya ha sido registrado");
+
             var salt = SecurityHelper.GenerateSalt();
             var passwordHash = SecurityHelper.HashPassword(user.Password, salt);
 
@@ -54,16 +47,18 @@ namespace lalrg_servicedesk_backend.Controllers
             return _userBL.Create(userToCreate);
         }
 
-        // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+        [HttpPost("login")]
+        public ActionResult<LoginResponseViewModel> Login([FromBody] LoginViewModel model) {
+            var user = _userBL.Login(model.email, model.password);
+            if (user == null) return Unauthorized("Datos erróneos");
+
+            user.Passwordhash = "";
+            user.Passwordsalt = "";
+            return new LoginResponseViewModel {
+                user = user,
+                token = TokenService.CreateToken(user)
+            };
         }
 
-        // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
