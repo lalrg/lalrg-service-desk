@@ -19,13 +19,13 @@ namespace DataAccess
             return _context.Appusers.SingleOrDefault(x => x.Email == email);
         }
 
-        public bool CreateUser(Appuser user)
+        public Appuser CreateUser(Appuser user)
         {
             var emailIsTaken = _context.Appusers.Any(x => x.Email == user.Email);
-            if (emailIsTaken) return false;
+            if (emailIsTaken) return null;
             _context.Appusers.Add(user);
             _context.SaveChanges();
-            return true;
+            return user;
         }
     }
 }

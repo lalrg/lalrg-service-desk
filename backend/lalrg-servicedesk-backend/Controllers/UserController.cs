@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BusinessLogic.DTOs;
+using BusinessLogic;
+using ETL;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,6 +13,12 @@ namespace lalrg_servicedesk_backend.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        UserBL _userBL;
+
+        public UserController(UserBL userBL)
+        {
+            _userBL = userBL;
+        }
         // GET: api/<UserController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -27,9 +34,24 @@ namespace lalrg_servicedesk_backend.Controllers
         }
 
         // POST api/<UserController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("Create")]
+        public Appuser CreateUser([FromBody] CreateUserDTO user)
         {
+            var salt = SecurityHelper.GenerateSalt();
+            var passwordHash = SecurityHelper.HashPassword(user.Password, salt);
+
+            var userToCreate = new Appuser
+            {
+                Email = user.Email,
+                Fullname = user.FullName,
+                IdRole = user.IdRole,
+                IdStatus = 1,
+                Passwordhash = passwordHash,
+                Passwordsalt = salt,
+                Phone = user.Phone
+            };
+
+            return _userBL.Create(userToCreate);
         }
 
         // PUT api/<UserController>/5

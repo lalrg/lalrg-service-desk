@@ -1,4 +1,5 @@
-﻿using DataAccess;
+﻿using BusinessLogic.DTOs;
+using DataAccess;
 using ETL;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,10 @@ namespace BusinessLogic
             if (hashMatches(realHash, user.Passwordsalt, password)) return null;
 
             return user;
+        }
+        public Appuser Create(Appuser model)
+        {
+            return _userRepository.CreateUser(model);
         }
     }
 }

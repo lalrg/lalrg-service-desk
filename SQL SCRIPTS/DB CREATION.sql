@@ -62,3 +62,13 @@ CREATE TABLE COMMENT (
 	COMMENTTEXT NVARCHAR(255) NOT NULL,
 	CREATEDATE DATETIME DEFAULT GETDATE()
 );
+
+INSERT INTO ROLE(ROLENAME) values ('Usuario'), ('Agente'), ('Administrador');
+INSERT INTO USERSTATUS (STATUSNAME) VALUES('Activo'),('Inactivo');
+INSERT INTO TICKETSTATUS(STATUSNAME) VALUES ('Abierto'),('En proceso'),('Finalizado');
+INSERT INTO SERVICES(Servicename) VALUES ('Cambio de hardware'), ('Correo electrónico'), ('Carpetas compartidas'), ('Telefonía IP');
+INSERT INTO LEVELOFSATISFACTION(LEVELOFSATISFACTION) VALUES (1), (2), (3), (4), (5);
+INSERT INTO COMMENTTYPE(COMMENTTYPENAME) VALUES ('Respuesta'), ('Cierre'),('Calificación');
+-- password for user is prueba
+INSERT INTO APPUSER(ID_STATUS, ID_ROLE, FULLNAME, EMAIL, PHONE, PASSWORDHASH, PASSWORDSALT)
+VALUES (1,3,'Test User', 'test@test.com','12345678', 'SEBkD1WPcQhpCI7muD4jp97hIaRuiuSY0UuDLsHsRNp857u7u6UqlpJs0MGT0irFdf2EsMwQc7F7wk/kjFgJ7q52JIE5AQ==', 'ClOFWONegwMZUfYkdeq2vZ1g0tS1aXlaGw==');

@@ -1,3 +1,4 @@
+using BusinessLogic;
 using DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +28,8 @@ namespace lalrg_servicedesk_backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<SERVICEDESKContext>();
+            services.AddScoped<UserRepository>();
+            services.AddScoped<UserBL>();
             services.AddControllers();
         }
 

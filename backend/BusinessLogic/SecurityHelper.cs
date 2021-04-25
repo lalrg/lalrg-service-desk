@@ -9,7 +9,7 @@ namespace BusinessLogic
 {
     public class SecurityHelper
     {
-        public static string GenerateSalt(int nSalt)
+        public static string GenerateSalt(int nSalt = 25)
         {
             var saltBytes = new byte[nSalt];
 
