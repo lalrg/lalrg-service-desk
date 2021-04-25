@@ -22,7 +22,7 @@ const AppHeader = () => (
       </Col>
       <Col style={{ paddingBottom: '10px' }} sm={24} md={21}>
         <Typography.Title level={2}>
-          Sistema de registro de niños
+          Service Desk
         </Typography.Title>
       </Col>
     </Row>
@@ -52,7 +52,7 @@ function App() {
             </Content>
           </Layout>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Gotitas de Sabiduría ©2021</Footer>
+        <Footer style={{ textAlign: 'center' }}>Service Desk ©2021</Footer>
       </Layout>
     </div>
   );

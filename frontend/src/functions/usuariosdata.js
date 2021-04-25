@@ -5,26 +5,21 @@ import {
 
 const columns = [
   {
-    title: 'Nombre colaborador',
+    title: 'Nombre',
     dataIndex: 'name',
     key: 'name'
   },
   {
-    title: 'Puesto',
+    title: 'Rol',
     dataIndex: 'place',
     key: 'place',
-  },
-  {
-    title: 'Horario',
-    dataIndex: 'schedule',
-    key: 'schedule',
   },
   {
     title: '',
     key: 'action',
     render: (text, record) => (
       <Space size="middle">
-        <Link to="/updateuser">Ver usuario</Link>
+        <Link to="/updateuser">Actualizar usuario</Link>
       </Space>
     ),
   },
@@ -33,21 +28,18 @@ const columns = [
 const data = [
   {
     key: '1',
-    name: 'Maria Bonilla',
-    place: 'Cocinera',
-    schedule: 'Mañana'
+    name: 'Ejemplo 3',
+    place: 'Administrador',
   },
   {
     key: '2',
-    name: 'Marco Solis',
-    place: 'Miscelaneo',
-    schedule: 'Mañana'
+    name: 'Ejemplo 2',
+    place: 'Usuario',
   },
   {
     key: '3',
-    name: 'Jimena Arce',
-    place: 'Teacher',
-    schedule: 'Tarde'
+    name: 'Ejemplo 1',
+    place: 'Agente',
   },
 ];
 

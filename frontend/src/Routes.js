@@ -3,7 +3,7 @@ import {
   Route
 } from "react-router-dom";
 
-import InicioAdministrador from './pages/InicioAdministrador'
+import Home from './pages/Home'
 import Login from './pages/Login'
 import Users from './pages/Users'
 import AddUser from "./pages/AddUser";
@@ -26,7 +26,7 @@ const Routes = () => (
       <UpdateUser />
     </Route>
     <Route path="/">
-      <InicioAdministrador />
+      <Home />
     </Route>
   </Switch>
 )
