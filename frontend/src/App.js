@@ -1,50 +1,63 @@
-import 'antd/dist/antd.css';
-import { Layout, Row, Col, Typography } from 'antd';
+import "antd/dist/antd.css";
+import { Layout, Row, Col, Typography } from "antd";
+import { useRecoilState } from "recoil";
+import { useEffect } from "react";
 
-import AppSideMenu from './components/AppSideMenu';
-import Routes from './Routes'
+import AppSideMenu from "./components/AppSideMenu";
+import Routes from "./Routes";
+import { AuthState } from "./store/store";
 
 const { Header, Content, Footer } = Layout;
 
 const AppHeader = () => (
-  <Header style={{ background: '#fff' }}>
+  <Header style={{ background: "#fff" }}>
     <Row gutter={20} align="middle" justify="space-around">
-      <Col xs={0} sm={0} md={3}>
-        <img
-          alt=""
-          style={{
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            height: '60px',
-          }}
-          src="/logo.png"
-        />
-      </Col>
-      <Col style={{ paddingBottom: '10px' }} sm={24} md={21}>
-        <Typography.Title level={2}>
+      <Col style={{ padding: "10px" }} sm={24}>
+        <Typography.Title align="center" level={2}>
           Service Desk
         </Typography.Title>
       </Col>
     </Row>
   </Header>
-)
+);
 
 function App() {
+  const [authState, setAuthState] = useRecoilState(AuthState);
+  useEffect(() => {
+    if (!authState) {
+      const existingToken = localStorage.getItem("authToken");
+      if (existingToken) console.log(existingToken);
+      setAuthState(existingToken);
+    }
+  });
+
   return (
     <div>
       <Layout>
-        <AppHeader />
-        <Content style={{ padding: '0' }}>
-          <Layout className="site-layout-background" style={{ padding: '10px 5px', maxHeight: '85vh', minHeight: '85vh' }}>
+        <Content style={{ padding: "0" }}>
+          <AppHeader />
+          <Layout
+            className="site-layout-background"
+            style={{
+              padding: "10px 5px",
+              maxHeight: "85vh",
+              minHeight: "85vh",
+            }}
+          >
             <AppSideMenu />
-            <Content style={{ padding: '10px', minHeight: 280 }}>
+            <Content
+              style={{
+                paddingRight: "10px",
+                paddingLeft: "10px",
+                minHeight: 280,
+              }}
+            >
               <div
                 style={{
-                  background: '#fff',
-                  maxHeight: '85vh',
-                  minHeight: '85vh',
-                  minWidth: '100%',
-                  overflow: 'auto'
+                  background: "#fff",
+                  height: "100%",
+                  minWidth: "100%",
+                  overflow: "auto",
                 }}
               >
                 <Routes />
@@ -52,9 +65,10 @@ function App() {
             </Content>
           </Layout>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Service Desk ©2021</Footer>
+        <Footer style={{ textAlign: "center" }}>Service Desk ©2021</Footer>
       </Layout>
     </div>
   );
 }
+
 export default App;

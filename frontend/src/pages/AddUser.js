@@ -1,15 +1,16 @@
-import { Row, 
-  Col, 
+import {
+  Row,
+  Col,
   Select,
-  Typography, 
-  Form, 
+  Typography,
+  Form,
   Input,
-  Button, 
+  Button,
   DatePicker,
   message,
-  } from 'antd'
+} from "antd";
 
-const key= 'updatable';
+const key = "updatable";
 
 const { Option } = Select;
 
@@ -18,13 +19,11 @@ function handleChange(value) {
 }
 
 const openMessage = () => {
-
-  message.loading({ content: 'Cargando...', key });
+  message.loading({ content: "Cargando...", key });
   setTimeout(() => {
-    message.success({ content: 'Éxito', key, duration: 2 });
+    message.success({ content: "Éxito", key, duration: 2 });
   }, 1000);
 };
-
 
 const layout = {
   labelCol: {
@@ -35,23 +34,15 @@ const layout = {
   },
 };
 
-const AutocompleteOptions = [
-  { value: 'hhhhhhhhhhhhhhhh' },
-  { value: 'hhhhhhhhhhh' },
-  { value: 'hhhhhhhhhhhh' },
-];
-
-
-
 const EditarUsuario = () => (
   <Col span={13} offset={4}>
-    <Form {...layout} name="nest-messages" >
+    <Form {...layout} name="nest-messages">
       <Form.Item
         label="Cédula"
         rules={[
           {
             required: true,
-            message: 'La cédula es requerida',
+            message: "La cédula es requerida",
           },
         ]}
       >
@@ -62,23 +53,23 @@ const EditarUsuario = () => (
         rules={[
           {
             required: true,
-            message: 'El nombre es requerido',
+            message: "El nombre es requerido",
           },
         ]}
       >
         <Input value="xxxxxxxxxxxx" />
       </Form.Item>
-   
+
       <Form.Item
         label="Primer Apellido"
         rules={[
           {
             required: true,
-            message: 'El apellido es requerido',
+            message: "El apellido es requerido",
           },
         ]}
       >
-    <Input value="xxxxxxxxxxxxxxx" />
+        <Input value="xxxxxxxxxxxxxxx" />
       </Form.Item>
 
       <Form.Item
@@ -86,50 +77,44 @@ const EditarUsuario = () => (
         rules={[
           {
             required: false,
-            message: 'El apellido es requerido',
+            message: "El apellido es requerido",
           },
         ]}
       >
-    <Input value="xxxxxxxxxxx" />
+        <Input value="xxxxxxxxxxx" />
       </Form.Item>
 
-      <Form.Item 
-        name="date-picker" 
-        label="Fecha de nacimiento">&nbsp;
+      <Form.Item name="date-picker" label="Fecha de nacimiento">
+        &nbsp;
         <DatePicker placeholder="Seleccione fecha" />
       </Form.Item>
 
-
-    <Form.Item
-      name="date-picker" 
-        label="Puesto:">&nbsp;
-  <>
-        
-    <Select defaultValue="<none>" style={{ width: 120 }} onChange={handleChange}>
-      <Option value="Administrador">Administrador</Option>
-      <Option value="Asistente">Asistente</Option>
-      <Option value="Teacher">Teacher</Option>
-      <Option value="Cocinero">Cocinero</Option>
-      <Option value="Miscelaneo">Miscelaneo</Option>
-    </Select>
-
-  </>,
-
-    </Form.Item>
+      <Form.Item name="date-picker" label="Puesto:">
+        &nbsp;
+        <>
+          <Select
+            defaultValue="<none>"
+            style={{ width: 120 }}
+            onChange={handleChange}
+          >
+            <Option value="Administrador">Administrador</Option>
+            <Option value="Asistente">Asistente</Option>
+            <Option value="Teacher">Teacher</Option>
+            <Option value="Cocinero">Cocinero</Option>
+            <Option value="Miscelaneo">Miscelaneo</Option>
+          </Select>
+        </>
+        ,
+      </Form.Item>
 
       <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-    
-    
-    
-  <Button type="primary" onClick={openMessage}>
-    GUARDAR
-  </Button>
-
-
+        <Button type="primary" onClick={openMessage}>
+          GUARDAR
+        </Button>
       </Form.Item>
     </Form>
   </Col>
-)
+);
 
 const AddUser = () => (
   <>
@@ -138,14 +123,12 @@ const AddUser = () => (
         <Typography.Title level={1}>Añadir Usuario</Typography.Title>
       </Col>
     </Row>
-    <br/>
-    <br/>
+    <br />
+    <br />
     <Row justify="start">
       <EditarUsuario />
     </Row>
- 
-  
   </>
-)
+);
 
-export default AddUser
+export default AddUser;

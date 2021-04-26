@@ -1,22 +1,20 @@
-import { Space } from 'antd';
-import {
-  Link
-} from "react-router-dom";
+import { Space } from "antd";
+import { Link } from "react-router-dom";
 
 const columns = [
   {
-    title: 'Nombre',
-    dataIndex: 'name',
-    key: 'name'
+    title: "Nombre",
+    dataIndex: "name",
+    key: "name",
   },
   {
-    title: 'Rol',
-    dataIndex: 'place',
-    key: 'place',
+    title: "Rol",
+    dataIndex: "place",
+    key: "place",
   },
   {
-    title: '',
-    key: 'action',
+    title: "",
+    key: "action",
     render: (text, record) => (
       <Space size="middle">
         <Link to="/updateuser">Actualizar usuario</Link>
@@ -27,20 +25,20 @@ const columns = [
 
 const data = [
   {
-    key: '1',
-    name: 'Ejemplo 3',
-    place: 'Administrador',
+    key: "1",
+    name: "Ejemplo 3",
+    place: "Administrador",
   },
   {
-    key: '2',
-    name: 'Ejemplo 2',
-    place: 'Usuario',
+    key: "2",
+    name: "Ejemplo 2",
+    place: "Usuario",
   },
   {
-    key: '3',
-    name: 'Ejemplo 1',
-    place: 'Agente',
+    key: "3",
+    name: "Ejemplo 1",
+    place: "Agente",
   },
 ];
 
-export { columns, data }
+export { columns, data };

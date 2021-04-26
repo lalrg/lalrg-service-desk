@@ -19,7 +19,7 @@ public class AuthenticateAttribute : Attribute, IAuthorizationFilter
         if (user == null)
             context.Result = unauthorizedResponse;
 
-        if (user.IdRoleNavigation.Rolename == _role)
+        if (user.IdRoleNavigation.Rolename != _role)
             context.Result = unauthorizedResponse;
 
     }

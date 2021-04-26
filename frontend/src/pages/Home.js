@@ -1,4 +1,4 @@
-import { Row, Col, Typography } from 'antd'
+import { Row, Col, Typography } from "antd";
 
 const Home = () => (
   <Row align="middle" justify="space-around">
@@ -6,6 +6,6 @@ const Home = () => (
       <Typography.Title level={1}>Home</Typography.Title>
     </Col>
   </Row>
-)
+);
 
-export default Home
+export default Home;

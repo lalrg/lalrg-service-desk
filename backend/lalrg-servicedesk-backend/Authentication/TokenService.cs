@@ -21,7 +21,7 @@ namespace lalrg_servicedesk_backend.Authentication
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Role, user.IdRoleNavigation.Rolename)
                 }),
-                Expires = DateTime.UtcNow.AddHours(Constants.JWTEXPIRE_HOURS),
+                Expires = DateTime.UtcNow.AddDays(Constants.JWTEXPIRE_DAYS),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(descriptor);

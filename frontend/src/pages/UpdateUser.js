@@ -1,23 +1,23 @@
-import { Row, 
-  Col, 
-  Typography, 
-  Form, 
+import {
+  Row,
+  Col,
+  Typography,
+  Form,
   Input,
-  Button, 
+  Button,
   DatePicker,
   message,
-  AutoComplete } from 'antd'
+  AutoComplete,
+} from "antd";
 
-const key= 'updatable';
+const key = "updatable";
 
 const openMessage = () => {
-
-  message.loading({ content: 'Cargando...', key });
+  message.loading({ content: "Cargando...", key });
   setTimeout(() => {
-    message.success({ content: 'Éxito', key, duration: 2 });
+    message.success({ content: "Éxito", key, duration: 2 });
   }, 1000);
 };
-
 
 const layout = {
   labelCol: {
@@ -28,30 +28,23 @@ const layout = {
   },
 };
 
-const AutocompleteOptions = [
-  { value: 'José Pérez' },
-  { value: 'María Rodrígues' },
-  { value: 'Héctor Gomez' },
-];
-
-
 const AutocompleteOptionsPlace = [
-  { value: 'Administrativo' },
-  { value: 'Teacher' },
-  { value: 'Cocinero' },
-  { value: 'Asistente' },
-  { value: 'Miscelaneo' },
+  { value: "Administrativo" },
+  { value: "Teacher" },
+  { value: "Cocinero" },
+  { value: "Asistente" },
+  { value: "Miscelaneo" },
 ];
 
 const EditarUsuario = () => (
   <Col span={13} offset={4}>
-    <Form {...layout} name="nest-messages" >
+    <Form {...layout} name="nest-messages">
       <Form.Item
         label="Cédula"
         rules={[
           {
             required: true,
-            message: 'La cédula es requerida',
+            message: "La cédula es requerida",
           },
         ]}
       >
@@ -62,7 +55,7 @@ const EditarUsuario = () => (
         rules={[
           {
             required: true,
-            message: 'El nombre es requerido',
+            message: "El nombre es requerido",
           },
         ]}
       >
@@ -74,46 +67,35 @@ const EditarUsuario = () => (
         rules={[
           {
             required: true,
-            message: 'El apellido es requerido',
+            message: "El apellido es requerido",
           },
         ]}
       >
         <Input value="Mendez" />
       </Form.Item>
 
-
-
       <Form.Item
         label="Segundo Apellido"
         rules={[
           {
-            required: false
-            
+            required: false,
           },
         ]}
       >
         <Input value="Zamora" />
       </Form.Item>
 
-
-
-
-      <Form.Item 
-        name="date-picker" 
-        label="Fecha de Nacimiento">:&nbsp;
+      <Form.Item name="date-picker" label="Fecha de Nacimiento">
+        :&nbsp;
         <DatePicker placeholder="Seleccione fecha" />
       </Form.Item>
 
-      <Form.Item 
-        name="date-picker" 
-        label="Fecha Contrato">:&nbsp;
+      <Form.Item name="date-picker" label="Fecha Contrato">
+        :&nbsp;
         <DatePicker placeholder="Seleccione fecha" />
       </Form.Item>
-     
 
-      <Form.Item 
-        name="Puesto" 
-        label="Puesto">
+      <Form.Item name="Puesto" label="Puesto">
         <AutoComplete
           style={{
             width: 200,
@@ -127,15 +109,14 @@ const EditarUsuario = () => (
         />
       </Form.Item>
 
-
       <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-      <Button type="primary" onClick={openMessage}>
-    GUARDAR
-  </Button>
+        <Button type="primary" onClick={openMessage}>
+          GUARDAR
+        </Button>
       </Form.Item>
     </Form>
   </Col>
-)
+);
 
 const UpdateUser = () => (
   <>
@@ -144,14 +125,12 @@ const UpdateUser = () => (
         <Typography.Title level={1}>Perfil</Typography.Title>
       </Col>
     </Row>
-    <br/>
-    <br/>
+    <br />
+    <br />
     <Row justify="start">
       <EditarUsuario />
     </Row>
-
-
   </>
-)
+);
 
-export default UpdateUser
+export default UpdateUser;
