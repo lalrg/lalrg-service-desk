@@ -8,7 +8,7 @@ using System;
 public class AuthenticateAttribute : Attribute, IAuthorizationFilter
 {
     string _role;
-    public AuthenticateAttribute(string role)
+    public AuthenticateAttribute(string role = null)
     {
         _role = role;
     }
@@ -19,8 +19,9 @@ public class AuthenticateAttribute : Attribute, IAuthorizationFilter
         if (user == null)
             context.Result = unauthorizedResponse;
 
-        if (user.IdRoleNavigation.Rolename != _role)
-            context.Result = unauthorizedResponse;
+        if (_role != null)
+            if (user.IdRoleNavigation.Rolename != _role)
+                context.Result = unauthorizedResponse;
 
     }
 }

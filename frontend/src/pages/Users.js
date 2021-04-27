@@ -2,7 +2,8 @@ import { Row, Col, Typography, Table } from "antd";
 
 import { Link } from "react-router-dom";
 
-import { columns, data } from "../functions/usuariosdata";
+import { data } from "../functions/usuariosdata";
+import columns from '../config/usersTableColumns'
 
 const Users = () => (
   <>

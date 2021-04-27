@@ -118,11 +118,11 @@ const EditarUsuario = () => (
   </Col>
 );
 
-const UpdateUser = () => (
+const UpdateUser = ({ title }) => (
   <>
     <Row align="middle" justify="space-around">
       <Col>
-        <Typography.Title level={1}>Perfil</Typography.Title>
+        <Typography.Title level={1}>{title}</Typography.Title>
       </Col>
     </Row>
     <br />

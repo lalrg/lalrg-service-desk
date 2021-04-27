@@ -1,6 +1,7 @@
 import { Row, Col, Typography, Card, Form, Input, Button } from "antd";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
+import { useHistory } from 'react-router-dom'
 
 import { Authenticate } from "../functions/auth";
 import { AuthState } from "../store/store";
@@ -15,16 +16,24 @@ const tailLayout = {
 };
 
 const Login = () => {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [, setAuthState] = useRecoilState(AuthState);
-  const onLogin = async () => {
-    const token = await Authenticate(email, password);
-    setAuthState(token);
-    localStorage.setItem("authToken", token);
-  };
+
   const onEmailInput = (e) => setEmail(e.target.value);
   const onPasswordInput = (e) => setPassword(e.target.value);
+
+  const onLogin = async () => {
+    const token = await Authenticate(email, password);
+    setAuthState({
+      token: token.token,
+      userName: token.user.fullname
+    });
+    localStorage.setItem("authToken", token.token);
+    localStorage.setItem("userName", token.user.fullname);
+    history.push("/");
+  };
 
   return (
     <>

@@ -26,8 +26,18 @@ namespace lalrg_servicedesk_backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<SERVICEDESKContext>();
+            
             services.AddScoped<UserRepository>();
+            services.AddScoped<RolesRepository>();
+            services.AddScoped<TicketRepository>();
+            services.AddScoped<CommentsRepository>();
+            services.AddScoped<ServiceRepository>();
+
             services.AddScoped<UserBL>();
+            services.AddScoped<RolesBL>();
+            services.AddScoped<TicketBL>();
+            services.AddScoped<CommentBL>();
+            services.AddScoped<ServiceBL>();
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

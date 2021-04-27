@@ -38,11 +38,19 @@ namespace BusinessLogic
         }
         public Appuser Create(Appuser model)
         {
-            return _userRepository.CreateUser(model);
+            return _userRepository.Create(model);
         }
         public Appuser GetByEmail(string email)
         {
             return _userRepository.GetByEmail(email);
+        }
+        public Appuser Update(Appuser model)
+        {
+            return _userRepository.Update(model);
+        }
+        public List<Appuser> GetAll()
+        {
+            return _userRepository.GetAll();
         }
     }
 }

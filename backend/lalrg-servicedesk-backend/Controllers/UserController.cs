@@ -47,6 +47,32 @@ namespace lalrg_servicedesk_backend.Controllers
             return _userBL.Create(userToCreate);
         }
 
+        [HttpPost("Update")]
+        [Authenticate]
+        public ActionResult<Appuser> UpdateUser([FromBody] CreateUserDTO user)
+        {
+            var existingUser = _userBL.GetByEmail(user.Email) == null;
+            if (!existingUser) return BadRequest("El usuario no existe.");
+
+            var userToUpdate = new Appuser 
+            {
+                Email = user.Email,
+                Fullname = user.FullName,
+                IdRole = user.IdRole,
+                Phone = user.Phone
+            };
+
+            if (_userBL.Login(user.Email, user.Password) == null)
+            {
+                var salt = SecurityHelper.GenerateSalt();
+                var passwordHash = SecurityHelper.HashPassword(user.Password, salt);
+                userToUpdate.Passwordhash = passwordHash;
+                userToUpdate.Passwordsalt = salt;
+            }
+
+            return _userBL.Update(userToUpdate);
+        }
+
         [HttpPost("login")]
         public ActionResult<LoginResponseViewModel> Login([FromBody] LoginViewModel model) {
             var user = _userBL.Login(model.email, model.password);
@@ -58,6 +84,13 @@ namespace lalrg_servicedesk_backend.Controllers
                 user = user,
                 token = TokenService.CreateToken(user)
             };
+        }
+
+        [HttpGet]
+        [Authenticate]
+        public ActionResult<List<Appuser>> Get()
+        {
+            return _userBL.GetAll();
         }
 
     }

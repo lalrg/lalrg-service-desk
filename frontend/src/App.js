@@ -26,8 +26,9 @@ function App() {
   useEffect(() => {
     if (!authState) {
       const existingToken = localStorage.getItem("authToken");
-      if (existingToken) console.log(existingToken);
-      setAuthState(existingToken);
+      const userName = localStorage.getItem("userName");
+      if (existingToken && userName)
+        setAuthState({token: existingToken, userName: userName});
     }
   });
 

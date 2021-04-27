@@ -3,17 +3,19 @@ import { useRecoilValue } from "recoil";
 
 import { isLoggedInSelector } from "./store/selectors";
 
-import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
 import AddUser from "./pages/AddUser";
 import UpdateUser from "./pages/UpdateUser";
+import CreateTicket from "./pages/CreateTicket";
+import ViewTickets from "./pages/ViewTickets";
+import TicketDetails from "./pages/TicketDetails";
 
 const LoggedInSwitch = () => {
   return (
     <Switch>
       <Route path="/login">
-        <Home />
+        <CreateTicket />
       </Route>
       <Route path="/users">
         <Users />
@@ -22,10 +24,25 @@ const LoggedInSwitch = () => {
         <AddUser />
       </Route>
       <Route path="/UpdateUser">
-        <UpdateUser />
+        <UpdateUser title="Actualizar usuario" />
+      </Route>
+      <Route path="/MyProfile">
+        <UpdateUser title="Mi perfil" />
+      </Route>
+      <Route path="/CreateTicket">
+        <CreateTicket />
+      </Route>
+      <Route path="/Tickets">
+        <ViewTickets view="all" />
+      </Route>
+      <Route path="/MyTickets">
+        <ViewTickets view="my" />
+      </Route>
+      <Route path="/TicketDetails/:id">
+        <TicketDetails />
       </Route>
       <Route path="/">
-        <Home />
+        <CreateTicket />
       </Route>
     </Switch>
   );

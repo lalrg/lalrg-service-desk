@@ -1,4 +1,4 @@
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, Link, useHistory } from "react-router-dom";
 import { Menu, Layout } from "antd";
 import {
   UserOutlined,
@@ -17,23 +17,25 @@ const { Sider } = Layout;
 
 const LoggedInSideMenu = () => {
   const [, setAuthState] = useRecoilState(AuthState);
+  const history = useHistory();
   const onLogout = () => {
     setAuthState(false);
     localStorage.clear();
+    history.push("/")
   };
   return (
     <Sider width={200}>
       <Menu mode="inline" defaultOpenKeys={["sub1"]} style={{ height: "100%" }}>
         <Menu.Item key="2" icon={<PlusCircleOutlined />}>
-          <Link to="/users">Crear ticket</Link>
+          <Link to="/CreateTicket">Crear ticket</Link>
         </Menu.Item>
 
         <Menu.Item key="3" icon={<UserOutlined />}>
-          <Link to="/users">Ver mis tickets</Link>
+          <Link to="/MyTickets">Ver mis tickets</Link>
         </Menu.Item>
 
         <Menu.Item key="5" icon={<UnorderedListOutlined />}>
-          <Link to="/users">Todos los tickets</Link>
+          <Link to="/Tickets">Todos los tickets</Link>
         </Menu.Item>
 
         <Menu.Item key="6" icon={<TeamOutlined />}>
@@ -41,7 +43,7 @@ const LoggedInSideMenu = () => {
         </Menu.Item>
 
         <Menu.Item key="7" icon={<IdcardOutlined />}>
-          <Link to="/users">Mi perfil</Link>
+          <Link to="/MyProfile">Mi perfil</Link>
         </Menu.Item>
         <Menu.Item key="8" icon={<LogoutOutlined />} onClick={onLogout}>
           Salir
