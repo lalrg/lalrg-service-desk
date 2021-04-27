@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil'
 import { Link } from 'react-router-dom'
 
 import { AuthState } from '../store/store'
-import { getAllTickets, getMyTickets } from '../functions/tickets'
+import { getAllTickets, getMyTickets, getClosedTickets } from '../functions/tickets'
 import ticketsTableColumns from '../config/ticketsTableColumns'
 
 const ViewTickets = ({ view }) => {
@@ -12,7 +12,14 @@ const ViewTickets = ({ view }) => {
   const [tickets, setTickets] = useState([])
   useEffect(()=> {
     (async ()=>{
-      const allTickets = view!=="my" ? await getAllTickets(authState.token): await getMyTickets(authState.token)
+      let allTickets = []
+      if(view ==="my")
+        allTickets = await getMyTickets(authState.token)
+      if(view ==="all")
+        allTickets = await getAllTickets(authState.token)
+      if(view ==="closed")
+        allTickets = await getClosedTickets(authState.token)
+
       if(allTickets)
         if(allTickets.data){
           const mappedTickets = allTickets.data.map(x => (

@@ -6,7 +6,6 @@ import { isLoggedInSelector } from "./store/selectors";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
 import AddUser from "./pages/AddUser";
-import UpdateUser from "./pages/UpdateUser";
 import CreateTicket from "./pages/CreateTicket";
 import ViewTickets from "./pages/ViewTickets";
 import TicketDetails from "./pages/TicketDetails";
@@ -23,11 +22,11 @@ const LoggedInSwitch = () => {
       <Route path="/AddUser">
         <AddUser />
       </Route>
-      <Route path="/UpdateUser">
-        <UpdateUser title="Actualizar usuario" />
+      <Route path="/updateuser/:id">
+        <AddUser view="update" />
       </Route>
       <Route path="/MyProfile">
-        <UpdateUser title="Mi perfil" />
+        <AddUser view="profile" />
       </Route>
       <Route path="/CreateTicket">
         <CreateTicket />
@@ -37,6 +36,9 @@ const LoggedInSwitch = () => {
       </Route>
       <Route path="/MyTickets">
         <ViewTickets view="my" />
+      </Route>
+      <Route path="/ClosedTickets">
+        <ViewTickets view="closed" />
       </Route>
       <Route path="/TicketDetails/:id">
         <TicketDetails />

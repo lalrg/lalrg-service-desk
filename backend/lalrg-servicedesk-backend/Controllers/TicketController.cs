@@ -35,6 +35,20 @@ namespace lalrg_servicedesk_backend.Controllers
             return _ticketBL.GetByUserId(user.Id);
         }
 
+        [HttpGet("{id}")]
+        [Authenticate]
+        public Ticket GetById(int id)
+        {
+            return _ticketBL.GetByTicketId(id);
+        }
+
+        [HttpGet("closed")]
+        [Authenticate]
+        public IEnumerable<Ticket> GetClosed()
+        {
+            return _ticketBL.GetFinalizedTickets();
+        }
+
         [HttpPost]
         [Authenticate]
         public bool Post([FromBody] Ticket value)
@@ -56,6 +70,18 @@ namespace lalrg_servicedesk_backend.Controllers
         public bool Close(int id)
         {
             return _ticketBL.CloseByTicketId(id);
+        }
+        [HttpGet("progress/{id}")]
+        [Authenticate]
+        public bool Progress(int id)
+        {
+            return _ticketBL.ProgressByTicketId(id);
+        }
+        [HttpGet("open/{id}")]
+        [Authenticate]
+        public bool Open(int id)
+        {
+            return _ticketBL.OpenByTicketId(id);
         }
     }
 }

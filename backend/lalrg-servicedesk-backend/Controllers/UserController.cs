@@ -27,7 +27,7 @@ namespace lalrg_servicedesk_backend.Controllers
         [Authenticate("Administrador")]
         public ActionResult<Appuser> CreateUser([FromBody] CreateUserDTO user)
         {
-            var userExists = _userBL.GetByEmail(user.Email) == null;
+            var userExists = _userBL.GetByEmail(user.Email) != null;
             if (userExists) return BadRequest("El correo ya ha sido registrado");
 
             var salt = SecurityHelper.GenerateSalt();
@@ -51,26 +51,26 @@ namespace lalrg_servicedesk_backend.Controllers
         [Authenticate]
         public ActionResult<Appuser> UpdateUser([FromBody] CreateUserDTO user)
         {
-            var existingUser = _userBL.GetByEmail(user.Email) == null;
-            if (!existingUser) return BadRequest("El usuario no existe.");
+            var existingUser = _userBL.GetByEmail(user.Email);
+            if (existingUser == null) return BadRequest("El usuario no existe.");
 
-            var userToUpdate = new Appuser 
-            {
-                Email = user.Email,
-                Fullname = user.FullName,
-                IdRole = user.IdRole,
-                Phone = user.Phone
-            };
+            existingUser.Email = user.Email;
+            existingUser.Fullname = user.FullName;
+            existingUser.IdRole = user.IdRole;
+            existingUser.Phone = user.Phone;
+            
 
-            if (_userBL.Login(user.Email, user.Password) == null)
+            if (user.Password != null)
             {
-                var salt = SecurityHelper.GenerateSalt();
-                var passwordHash = SecurityHelper.HashPassword(user.Password, salt);
-                userToUpdate.Passwordhash = passwordHash;
-                userToUpdate.Passwordsalt = salt;
+                if (_userBL.Login(user.Email, user.Password) == null)
+                {
+                    var salt = SecurityHelper.GenerateSalt();
+                    var passwordHash = SecurityHelper.HashPassword(user.Password, salt);
+                    existingUser.Passwordhash = passwordHash;
+                    existingUser.Passwordsalt = salt;
+                }
             }
-
-            return _userBL.Update(userToUpdate);
+            return _userBL.Update(existingUser);
         }
 
         [HttpPost("login")]
@@ -93,5 +93,11 @@ namespace lalrg_servicedesk_backend.Controllers
             return _userBL.GetAll();
         }
 
+        [HttpGet("{id}")]
+        [Authenticate]
+        public ActionResult<Appuser> Get(int id)
+        {
+            return _userBL.GetById(id);
+        }
     }
 }

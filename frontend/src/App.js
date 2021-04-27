@@ -27,8 +27,10 @@ function App() {
     if (!authState) {
       const existingToken = localStorage.getItem("authToken");
       const userName = localStorage.getItem("userName");
-      if (existingToken && userName)
-        setAuthState({token: existingToken, userName: userName});
+      const role = localStorage.getItem("role");
+      const id = localStorage.getItem("id");
+      if (existingToken && userName && role && id)
+        setAuthState({token: existingToken, userName, role, id});
     }
   });
 

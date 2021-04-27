@@ -7,6 +7,7 @@ import {
   UnorderedListOutlined,
   IdcardOutlined,
   LogoutOutlined,
+  HistoryOutlined
 } from "@ant-design/icons";
 import { useRecoilValue, useRecoilState } from "recoil";
 
@@ -16,13 +17,14 @@ import { AuthState } from "../store/store";
 const { Sider } = Layout;
 
 const LoggedInSideMenu = () => {
-  const [, setAuthState] = useRecoilState(AuthState);
+  const [authState, setAuthState] = useRecoilState(AuthState);
   const history = useHistory();
   const onLogout = () => {
     setAuthState(false);
     localStorage.clear();
     history.push("/")
   };
+
   return (
     <Sider width={200}>
       <Menu mode="inline" defaultOpenKeys={["sub1"]} style={{ height: "100%" }}>
@@ -34,13 +36,22 @@ const LoggedInSideMenu = () => {
           <Link to="/MyTickets">Ver mis tickets</Link>
         </Menu.Item>
 
-        <Menu.Item key="5" icon={<UnorderedListOutlined />}>
-          <Link to="/Tickets">Todos los tickets</Link>
-        </Menu.Item>
-
-        <Menu.Item key="6" icon={<TeamOutlined />}>
-          <Link to="/users">Usuarios</Link>
-        </Menu.Item>
+        {
+          authState.role === "Administrador" &&
+            <>
+              <Menu.Item key="4" icon={<HistoryOutlined />}>
+                <Link to="/ClosedTickets">Ver tickets cerrados</Link>
+              </Menu.Item>
+      
+              <Menu.Item key="5" icon={<UnorderedListOutlined />}>
+                <Link to="/Tickets">Todos los tickets</Link>
+              </Menu.Item>
+      
+              <Menu.Item key="6" icon={<TeamOutlined />}>
+                <Link to="/users">Usuarios</Link>
+              </Menu.Item>
+            </>
+        }
 
         <Menu.Item key="7" icon={<IdcardOutlined />}>
           <Link to="/MyProfile">Mi perfil</Link>

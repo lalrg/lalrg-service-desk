@@ -28,10 +28,14 @@ const Login = () => {
     const token = await Authenticate(email, password);
     setAuthState({
       token: token.token,
-      userName: token.user.fullname
+      userName: token.user.fullname,
+      role: token.user.idRoleNavigation.rolename,
+      id: token.user.id
     });
     localStorage.setItem("authToken", token.token);
     localStorage.setItem("userName", token.user.fullname);
+    localStorage.setItem("role", token.user.idRoleNavigation.rolename);
+    localStorage.setItem("id", token.user.id);
     history.push("/");
   };
 

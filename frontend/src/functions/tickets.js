@@ -12,8 +12,33 @@ const getMyTickets = async (token) => {
   return await get(`/ticket/user`, token)
 }
 
+const getById= async (token,id) => {
+  return await get(`/ticket/${id}`, token)
+}
+
+const getClosedTickets = async (token) => {
+  return await get(`/ticket/closed`, token)
+}
+
+const openTicket = async (token, id) => {
+  return await get(`/ticket/open/${id}`, token)
+}
+
+const progressTicket = async (token, id) => {
+  return await get(`/ticket/progress/${id}`, token)
+}
+
+const closeTicket = async (token, id) => {
+  return await get(`/ticket/close/${id}`, token)
+}
+
 export {
   postNewTicket,
   getAllTickets,
-  getMyTickets
+  getMyTickets,
+  getClosedTickets,
+  getById,
+  openTicket,
+  progressTicket,
+  closeTicket
 }

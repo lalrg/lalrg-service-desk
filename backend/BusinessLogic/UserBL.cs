@@ -16,7 +16,7 @@ namespace BusinessLogic
         {
             _userRepository = new UserRepository();
         }
-        
+
         //returns null when the login fails
         public Appuser Login(string email, string password)
         {
@@ -43,6 +43,10 @@ namespace BusinessLogic
         public Appuser GetByEmail(string email)
         {
             return _userRepository.GetByEmail(email);
+        }
+        public Appuser GetById (int id)
+        {
+            return _userRepository.GetById(id);
         }
         public Appuser Update(Appuser model)
         {

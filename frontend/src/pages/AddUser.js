@@ -9,126 +9,136 @@ import {
   DatePicker,
   message,
 } from "antd";
+import { useState, useEffect } from "react";
+import { useRecoilState } from 'recoil'
+import { useHistory, useParams } from 'react-router-dom'
 
-const key = "updatable";
+import { AuthState } from '../store/store'
+import { getAllRoles } from '../functions/roles'
+import { addUserRequest, getById, updateUserRequest } from '../functions/users'
 
-const { Option } = Select;
+const { Option } = Select
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
+const AddUser = ({view}) => {
 
-const openMessage = () => {
-  message.loading({ content: "Cargando...", key });
-  setTimeout(() => {
-    message.success({ content: "Éxito", key, duration: 2 });
-  }, 1000);
-};
+  const [roles, setRoles] = useState([])
+  const [user, setUser] = useState({
+    fullname: '',
+    email: '',
+    password: '',
+    idRole: '',
+    phone:'',
+    id: undefined
+  })
+  const [authState,] = useRecoilState(AuthState)
 
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
+  const history = useHistory()
+  const params = useParams()
 
-const EditarUsuario = () => (
-  <Col span={13} offset={4}>
-    <Form {...layout} name="nest-messages">
-      <Form.Item
-        label="Cédula"
-        rules={[
-          {
-            required: true,
-            message: "La cédula es requerida",
-          },
-        ]}
-      >
-        <Input value="999999999" />
-      </Form.Item>
-      <Form.Item
-        label="Nombre"
-        rules={[
-          {
-            required: true,
-            message: "El nombre es requerido",
-          },
-        ]}
-      >
-        <Input value="xxxxxxxxxxxx" />
-      </Form.Item>
+  useEffect(()=>{
+    (async () => {
+      const rolesResponse = await getAllRoles(authState.token)
+      setRoles(rolesResponse.data)
+      if (view === "profile") {
+        const responseUser = await getById(authState.token, authState.id)
+        setUser({...responseUser.data})
+      }
+      if (view === "update") {
+        const responseUser = await getById(authState.token, params.id)
+        setUser({...responseUser.data})
+      }
+    })()
+  }, [setRoles, setUser, authState, view, params])
 
-      <Form.Item
-        label="Primer Apellido"
-        rules={[
-          {
-            required: true,
-            message: "El apellido es requerido",
-          },
-        ]}
-      >
-        <Input value="xxxxxxxxxxxxxxx" />
-      </Form.Item>
+  useEffect(() => {
+    console.log(user);
+  }, [user])
 
-      <Form.Item
-        label="Segundo Apellido"
-        rules={[
-          {
-            required: false,
-            message: "El apellido es requerido",
-          },
-        ]}
-      >
-        <Input value="xxxxxxxxxxx" />
-      </Form.Item>
+  const onFinish = async () => {
+    const result = !view? await addUserRequest(authState.token, user): await updateUserRequest(authState.token, user);
+    if (result) {
+      history.push('/')
+    }
+  }
+  const onNameInput = ({target}) => {
+    setUser({ ...user, fullname: target.value })
+  }
+  const onEmailInput = ({target}) => {
+    setUser({ ...user, email: target.value })
+  }
+  const onPasswordInput = ({target}) => {
+    setUser({ ...user, password: target.value })
+  }
+  const onRoleChange = (value) => {
+    setUser({ ...user, idRole: value })
+  }
+  const onPhoneChange = ({target}) => {
+    setUser({ ...user, phone: target.value })
+  }
 
-      <Form.Item name="date-picker" label="Fecha de nacimiento">
-        &nbsp;
-        <DatePicker placeholder="Seleccione fecha" />
-      </Form.Item>
-
-      <Form.Item name="date-picker" label="Puesto:">
-        &nbsp;
-        <>
-          <Select
-            defaultValue="<none>"
-            style={{ width: 120 }}
-            onChange={handleChange}
+  return (
+    <>
+      <Row align="middle" justify="space-around">
+        <Col>
+          <Typography.Title level={1}>{view==="update"?"Actualizar usuario": view==="profile"?"Actualizar mi cuenta" : "Crear usuario"}</Typography.Title>
+        </Col>
+      </Row>
+      <br />
+      <br />
+      <Form onFinish={onFinish}>
+        <Row align="middle" justify="space-around">
+          <Form.Item
+            label="Nombre completo"
+            rules={[{ required: true, message: 'Es necesario ingresar un nombre.' }]}
           >
-            <Option value="Administrador">Administrador</Option>
-            <Option value="Asistente">Asistente</Option>
-            <Option value="Teacher">Teacher</Option>
-            <Option value="Cocinero">Cocinero</Option>
-            <Option value="Miscelaneo">Miscelaneo</Option>
-          </Select>
-        </>
-        ,
-      </Form.Item>
-
-      <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-        <Button type="primary" onClick={openMessage}>
-          GUARDAR
-        </Button>
-      </Form.Item>
-    </Form>
-  </Col>
-);
-
-const AddUser = () => (
-  <>
-    <Row align="middle" justify="space-around">
-      <Col>
-        <Typography.Title level={1}>Añadir Usuario</Typography.Title>
-      </Col>
-    </Row>
-    <br />
-    <br />
-    <Row justify="start">
-      <EditarUsuario />
-    </Row>
-  </>
-);
+            <Input value={user.fullname} onInput={onNameInput} />
+          </Form.Item>
+        </Row>
+        <Row align="middle" justify="space-around">
+          <Form.Item
+            label="Correo Electrónico"
+            rules={[{ required: true, message: 'Es necesario ingresar un correo electrónico.' }]}
+          >
+            <Input type="email" value={user.email} onInput={onEmailInput} />
+          </Form.Item>
+        </Row>
+        <Row align="middle" justify="space-around">
+          <Form.Item
+            label="Teléfono"
+            rules={[{ required: true, message: 'Es necesario ingresar un número telefónico.' }]}
+          >
+            <Input value={user.phone} onInput={onPhoneChange} />
+          </Form.Item>
+        </Row>
+        <Row align="middle" justify="space-around">
+          <Form.Item
+            label="Contraseña"
+          >
+            <Input type="password" value={user.password} onInput={onPasswordInput} />
+          </Form.Item>
+        </Row>
+        <Row align="middle" justify="space-around">
+          <Form.Item
+            label="Rol"
+            rules={[{ required: true, message: 'Es necesario seleccionar un rol.' }]}
+          >
+            <Select size="large" style={{ width: 220 }} value={user.idRole} onChange={onRoleChange} >
+              {
+                roles.map(x => <Option value={x.id} key={x.id}>{x.rolename}</Option>)
+              }
+            </Select>
+          </Form.Item>
+        </Row>
+        <Row align="middle" justify="space-around">
+          <Form.Item >
+            <Button type="primary" htmlType="submit">
+              {!view ?"Crear usuario" : "Actualizar datos"}
+            </Button>
+          </Form.Item>
+        </Row>
+      </Form>
+    </>
+  )
+};
 
 export default AddUser;

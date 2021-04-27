@@ -19,6 +19,10 @@ namespace DataAccess
         {
             return _context.Appusers.Where(x => x.IdStatus == 1).Include(u => u.IdRoleNavigation).SingleOrDefault(x => x.Email == email);
         }
+        public Appuser GetById(int id)
+        {
+            return _context.Appusers.Where(x => x.IdStatus == 1).Include(u => u.IdRoleNavigation).SingleOrDefault(x => x.Id == id);
+        }
 
         public Appuser Create(Appuser user)
         {
@@ -52,7 +56,7 @@ namespace DataAccess
         }
         public List<Appuser> GetAll()
         {
-            return _context.Appusers.Where(x => x.IdStatus == 1).ToList();
+            return _context.Appusers.Include(x => x.IdRoleNavigation).Where(x => x.IdStatus == 1).ToList();
         }
     }
 }

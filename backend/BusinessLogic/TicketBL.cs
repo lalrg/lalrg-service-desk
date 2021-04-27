@@ -52,5 +52,13 @@ namespace BusinessLogic
         {
             return _ticketRepository.CloseTicketById(ticketId);
         }
+        public bool ProgressByTicketId(int ticketId)
+        {
+            return _ticketRepository.ProgressTicketById(ticketId);
+        }
+        public bool OpenByTicketId(int ticketId)
+        {
+            return _ticketRepository.OpenTicketById(ticketId);
+        }
     }
 }

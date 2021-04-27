@@ -4,20 +4,25 @@ import { Link } from "react-router-dom";
 const columns = [
   {
     title: "Nombre",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "fullname",
+    key: "fullname",
   },
   {
     title: "Rol",
-    dataIndex: "place",
-    key: "place",
+    dataIndex: "role",
+    key: "role",
+  },
+  {
+    title: "Correo electrónico",
+    dataIndex: "email",
+    key: "email",
   },
   {
     title: "",
     key: "action",
     render: (text, record) => (
       <Space size="middle">
-        <Link to="/updateuser">Actualizar usuario</Link>
+        <Link to={`/updateuser/${record.id}`}>Actualizar usuario</Link>
       </Space>
     ),
   },
