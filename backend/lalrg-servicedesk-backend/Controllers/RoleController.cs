@@ -20,7 +20,7 @@ namespace lalrg_servicedesk_backend.Controllers
         }
 
         [HttpGet]
-        [Authenticate("Administrador")]
+        [Authenticate]
         public List<Role> Get()
         {
             return _rolesBL.GetAll();
